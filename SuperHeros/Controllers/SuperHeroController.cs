@@ -26,7 +26,7 @@ namespace SuperHeros.Controllers
         // GET: SuperHero/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return View(_context.SuperHeros.Find(id));
         }
 
         // GET: SuperHero/Create
@@ -54,48 +54,48 @@ namespace SuperHeros.Controllers
         }
 
         // GET: SuperHero/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id)           
         {
-            return View();
+            return View(_context.SuperHeros.Find(id));
         }
 
         // POST: SuperHero/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, SuperHero superhero)
         {
-            try
+            if(ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                _context.SuperHeros.Update(superhero);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            catch
+            else
             {
-                return View();
+                return Edit(id, superhero);
             }
         }
 
         // GET: SuperHero/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return View(_context.SuperHeros.Find(id));
         }
 
         // POST: SuperHero/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, SuperHero superhero)
         {
-            try
+            if(ModelState.IsValid)
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
+                _context.SuperHeros.Remove(superhero);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            catch
+            else
             {
-                return View();
+                return Delete(id, superhero);
             }
         }
     }
